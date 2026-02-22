@@ -188,7 +188,7 @@ public class ConfigWindow : Window, IDisposable
             {
                 if (ImGuiComponents.IconButton("#addPlayerManually", FontAwesomeIcon.Plus))
                 {
-                    var player = new Classes.Player($"{firstname} {lastname}", server);
+                    var player = new Player($"{firstname} {lastname}", server);
                     player.AddMounts(configuration.TrackedMounts.ToList());
                     configuration.Player.Add(player);
                     configuration.Save();
@@ -245,7 +245,7 @@ public class ConfigWindow : Window, IDisposable
                     {
                         if (ImGuiComponents.IconButton("addPartyPlayer#" + partyMember.EntityId, FontAwesomeIcon.Plus))
                         {
-                            var player = new Classes.Player(name, playerServer);
+                            var player = new Player(name, playerServer);
                             player.AddMounts(configuration.TrackedMounts.ToList());
                             configuration.Player.Add(player);
                             configuration.Save();
@@ -268,7 +268,7 @@ public class ConfigWindow : Window, IDisposable
                 ImGui.TableNextColumn();
                 if (ImGuiComponents.IconButton("addCurrentPlayer#" + currentPlayer.EntityId, FontAwesomeIcon.Plus))
                 {
-                    var player = new Classes.Player(currentPlayer.CharacterName, currentPlayer.HomeWorld.Value.Name.ExtractText());
+                    var player = new Player(currentPlayer.CharacterName, currentPlayer.HomeWorld.Value.Name.ExtractText());
                     player.AddMounts(configuration.TrackedMounts.ToList());
                     configuration.Player.Add(player);
                     configuration.Save();
