@@ -4,8 +4,10 @@ using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
+using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using MountTracker.Classes;
 
 namespace MountTracker.Windows;
 
@@ -95,18 +97,20 @@ public class MainWindow : Window, IDisposable
                                        .Where(id => plugin.Configuration.Mounts[id].ToString().Contains(search.ToLowerInvariant(), StringComparison.InvariantCultureIgnoreCase))
                                        .ToList();
 
-        var playerCount = plugin.Configuration.Player.Count > 0 ? plugin.Configuration.Player.Count : 0;
+        float playerCount = plugin.Configuration.Player.Count > 0 ? plugin.Configuration.Player.Count : 0;
         foreach (var mount in curFilteredMounts)
         {
-            var playerObtained = plugin.Configuration.Player.Count > 0
-                                 ? plugin.Configuration.Player.Select(p => p.IsObtained(mount)).Count(obtained => obtained)
-                                 : 0;
+            var playerObtained = playerCount > 0
+                                     ? plugin.Configuration.Player.Select(p => p.IsObtained(mount)).Count(obtained => obtained)
+                                     : 0;
             var mountName = plugin.Configuration.Mounts[mount].ToString();
             var mountString = $"{mountName} ({playerObtained / playerCount * 100:F0}%)";
             if(ImGui.Selectable(mountString, mount == currentMount))
             {
                 currentMount = mount;
             }
+
+            Helpers.DrawCurrentMountFightsTooltip(plugin.Configuration.Mounts, mount);
         }
     }
 
