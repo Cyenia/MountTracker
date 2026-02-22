@@ -1,0 +1,11 @@
+{
+  "Author": "Cyenia",
+  "Name": "Mount Tracker",
+  "Punchline": "Know who rides what.",
+  "Description": "Monitor mount collections across your social circle with ease. This plugin lets you track which mounts your friends and/or party members own, helping you coordinate mount farming.",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "tracking",
+    "mounts"
+  ]
+}
