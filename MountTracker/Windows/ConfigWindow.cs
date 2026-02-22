@@ -26,7 +26,7 @@ public class ConfigWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(375, 330),
+            MinimumSize = new Vector2(280, 205) * ImGuiHelpers.GlobalScale,
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
         configuration = plugin.Configuration;
