@@ -139,6 +139,7 @@ public class ConfigWindow : Window, IDisposable
 
                 ImGui.TableNextColumn();
                 ImGui.Text(trackedMount.ToString());
+                Helpers.DrawCurrentMountFightsTooltip(configuration.Mounts, id);
                 ImGui.TableNextColumn();
                 if (ImGuiComponents.IconButton($"removeMount#{id}", FontAwesomeIcon.Trash))
                 {
