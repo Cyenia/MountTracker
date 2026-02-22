@@ -212,6 +212,8 @@ public class ConfigWindow : Window, IDisposable
     
     private void DrawAddPlayerParty()
     {
+        if (!PluginServices.ClientState.IsLoggedIn) return;
+        
         var currentPlayer = PluginServices.PlayerState;
         var currentPlayerString = $"{currentPlayer.CharacterName}@{currentPlayer.HomeWorld.Value.Name.ExtractText()}";
         var playerContained = configuration.Player.Any(player => player.ToString() == currentPlayerString);
