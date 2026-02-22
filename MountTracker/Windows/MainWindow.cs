@@ -94,10 +94,19 @@ public class MainWindow : Window, IDisposable
         var curFilteredMounts = plugin.Configuration.TrackedMounts
                                        .Where(id => plugin.Configuration.Mounts[id].ToString().Contains(search.ToLowerInvariant(), StringComparison.InvariantCultureIgnoreCase))
                                        .ToList();
-        
-        foreach (var id in curFilteredMounts.Where(id => ImGui.Selectable(plugin.Configuration.Mounts[id].ToString(), id == currentMount)))
+
+        var playerCount = plugin.Configuration.Player.Count > 0 ? plugin.Configuration.Player.Count : 0;
+        foreach (var mount in curFilteredMounts)
         {
-            currentMount = id;
+            var playerObtained = plugin.Configuration.Player.Count > 0
+                                 ? plugin.Configuration.Player.Select(p => p.IsObtained(mount)).Count(obtained => obtained)
+                                 : 0;
+            var mountName = plugin.Configuration.Mounts[mount].ToString();
+            var mountString = $"{mountName} ({playerObtained / playerCount * 100:F0}%)";
+            if(ImGui.Selectable(mountString, mount == currentMount))
+            {
+                currentMount = mount;
+            }
         }
     }
 
@@ -132,7 +141,7 @@ public class MainWindow : Window, IDisposable
                     var playerData = player.Mounts[currentMount];
                     if (ImGui.Checkbox("##" + currentMount + player, ref playerData))
                     {
-                        player.Mounts[currentMount] = playerData;
+                        player.SetObtained(currentMount, playerData);
                         plugin.Configuration.Save();
                     }
                 }

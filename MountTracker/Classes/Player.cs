@@ -31,6 +31,11 @@ public class Player(string name, string server)
             Mounts.TryAdd(mountId, obtained);
         }
     }
+    
+    public bool IsObtained(uint mountId)
+    {
+        return Mounts.TryGetValue(mountId, out var obtained) && obtained;
+    }
 
     public override string ToString()
     {
