@@ -228,15 +228,18 @@ public class ConfigWindow : Window, IDisposable
             {
                 foreach (var partyMember in PluginServices.PartyList)
                 {
+                    var name = partyMember.Name.TextValue;
+                    var playerServer = partyMember.World.Value.Name.ExtractText();
+                    
                     ImGui.TableNextColumn();
-                    ImGui.Text(partyMember.Name.TextValue + "@" + partyMember.World.Value);
+                    ImGui.Text($"{name}@{playerServer}");
                     ImGui.TableNextColumn();
-                    playerContained = configuration.Player.Any(player => player.ToString() == $"{partyMember.Name.TextValue}@{partyMember.World.Value.Name.ExtractText()}");
+                    playerContained = configuration.Player.Any(player => player.ToString() == $"{name}@{playerServer}");
                     if(!playerContained)
                     {
                         if (ImGuiComponents.IconButton("addPartyPlayer#" + partyMember.EntityId, FontAwesomeIcon.Plus))
                         {
-                            var player = new Classes.Player(partyMember.Name.TextValue, partyMember.World.Value.Name.ExtractText());
+                            var player = new Classes.Player(name, playerServer);
                             player.AddMounts(configuration.TrackedMounts.ToList());
                             configuration.Player.Add(player);
                             configuration.Save();
