@@ -22,7 +22,7 @@ public class ConfigWindow : Window, IDisposable
     private string lastname = string.Empty;
     private string server = string.Empty;
 
-    public ConfigWindow(Plugin plugin) : base("Mount Tracker - Config###42069")
+    public ConfigWindow(Plugin plugin) : base("Mount Tracker - Config###config_42069")
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -209,10 +209,15 @@ public class ConfigWindow : Window, IDisposable
         var currentPlayerString = $"{currentPlayer.CharacterName}@{currentPlayer.HomeWorld.Value.Name.ExtractText()}";
         var playerContained = configuration.Player.Any(player => player.ToString() == currentPlayerString);
         
-        if(PluginServices.PartyList.Count == 0 && playerContained) return;
-        
         if (ImGui.CollapsingHeader("Add Player from Party"))
         {
+
+            if (PluginServices.PartyList.Count == 0 && playerContained)
+            {
+                ImGui.Text("Not in a party");
+                return;
+            }
+            
             using var partyTable = ImRaii.Table("addPlayerPartyTable", 2, ImGuiTableFlags.BordersInnerH | ImGuiTableFlags.RowBg);
             if (!partyTable.Success) return;
 

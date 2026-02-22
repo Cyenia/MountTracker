@@ -16,7 +16,7 @@ public class MainWindow : Window, IDisposable
     private string search = string.Empty;
     private uint currentMount;
 
-    public MainWindow(Plugin plugin) : base("Mount Tracker###42069")
+    public MainWindow(Plugin plugin) : base("Mount Tracker###main_42069")
     {
         SizeConstraints = new WindowSizeConstraints
         {
