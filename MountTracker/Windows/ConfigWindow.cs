@@ -7,6 +7,7 @@ using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using MountTracker.Classes;
 using MountTracker.Services;
 
 namespace MountTracker.Windows;
@@ -104,10 +105,15 @@ public class ConfigWindow : Window, IDisposable
                                                  .Where(keyVal => keyVal.Value.ToString().Contains(term, StringComparison.InvariantCultureIgnoreCase))
                                                  .Select(keyVal => keyVal.Key)
                                                  .ToList();
-        
-        foreach (var id in curFilteredMounts.Where(id => !configuration.TrackedMounts.Contains(id) && ImGui.Selectable(configuration.Mounts[id].ToString(), id == currentMount)))
+        foreach (var mount in curFilteredMounts)
         {
-            currentMount = id;
+            var mountName = configuration.Mounts[mount].ToString();
+            if(ImGui.Selectable(mountName, mount == currentMount))
+            {
+                currentMount = mount;
+            }
+
+            Helpers.DrawCurrentMountFightsTooltip(configuration.Mounts, mount);
         }
     }
     
@@ -211,7 +217,6 @@ public class ConfigWindow : Window, IDisposable
         
         if (ImGui.CollapsingHeader("Add Player from Party"))
         {
-
             if (PluginServices.PartyList.Count == 0 && playerContained)
             {
                 ImGui.Text("Not in a party");
