@@ -102,19 +102,10 @@ public class ConfigWindow : Window, IDisposable
     {
         var term = search.ToLowerInvariant();
         var curFilteredMounts = configuration.Mounts
-                                                 .Where(keyVal => keyVal.Value.ToString().Contains(term, StringComparison.InvariantCultureIgnoreCase))
+                                                 .Where(keyVal => keyVal.Value.ToString().Contains(term, StringComparison.InvariantCultureIgnoreCase) &&  !configuration.TrackedMounts.Contains(keyVal.Key))
                                                  .Select(keyVal => keyVal.Key)
                                                  .ToList();
-        foreach (var mount in curFilteredMounts)
-        {
-            var mountName = configuration.Mounts[mount].ToString();
-            if(ImGui.Selectable(mountName, mount == currentMount))
-            {
-                currentMount = mount;
-            }
-
-            Helpers.DrawCurrentMountFightsTooltip(configuration.Mounts, mount);
-        }
+        Helpers.DrawCollapsableMountSelectable(curFilteredMounts, configuration, ref currentMount);
     }
     
     private void DrawTrackedMounts()

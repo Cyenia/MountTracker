@@ -14,6 +14,11 @@ public class Fight(uint contentId)
     [NonSerialized]
     private static readonly ExcelSheet<ContentFinderCondition>? ContentFinderConditionSheet = PluginServices.DataManager.GameData.GetExcelSheet<ContentFinderCondition>();
 
+    public ContentFinderCondition? ToContentFinderCondition()
+    {
+        return ContentFinderConditionSheet?.FirstOrDefault(content => content.RowId == ContentId);
+    }
+    
     public override string ToString()
     {
         if(ContentFinderConditionSheet == null) return $"Fight-ID {ContentId}";
