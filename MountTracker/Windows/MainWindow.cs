@@ -123,6 +123,26 @@ public class MainWindow : Window, IDisposable
 
         if (child.Success)
         {
+            var textWidth = ImGui.CalcTextSize("All Acquired").X;
+            var checkWidth = ImGui.GetFrameHeight();
+            var currentCursorPosX =  ImGui.GetCursorPosX();
+            
+            ImGui.SetCursorPosX(ImGui.GetContentRegionAvail().X - textWidth - checkWidth);
+            
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("All Acquired");
+            ImGui.SameLine();
+            
+            var allAcquired = plugin.Configuration.Player.All(p => p.IsObtained(currentMount));
+            if (ImGui.Checkbox("###" + currentPlayer + "AllAcquired", ref allAcquired))
+            {
+                plugin.Configuration.Player.ForEach(p => p.SetObtained(currentMount, allAcquired));
+                plugin.Configuration.Save();
+            }
+            
+            ImGui.SameLine();
+            ImGui.SetCursorPosX(currentCursorPosX);
+            
             ImGui.Text(mountString);
 
             ImGui.Spacing();
@@ -235,7 +255,30 @@ public class MainWindow : Window, IDisposable
 
         if (child.Success)
         {
-            ImGui.SetNextItemWidth(-1);
+            var textWidth = ImGui.CalcTextSize("All Acquired").X;
+            var checkWidth = ImGui.GetFrameHeight();
+            var currenCursorPosX = ImGui.GetCursorPosX();
+
+            ImGui.SetCursorPosX(ImGui.GetContentRegionAvail().X - textWidth - checkWidth);
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("All Acquired");
+            ImGui.SameLine();
+
+            var curFilteredMounts = plugin.Configuration.TrackedMounts
+                                          .Where(id => plugin.Configuration.Mounts[id].ToString().Contains(mountPlayerSearch.ToLowerInvariant(), StringComparison.InvariantCultureIgnoreCase))
+                                          .ToList();
+
+            var allAcquired = curFilteredMounts.All(m => currentPlayer!.IsObtained(m));
+            if (ImGui.Checkbox("###" + currentPlayer + "AllAcquired", ref allAcquired))
+            {
+                curFilteredMounts.ForEach(m => currentPlayer!.SetObtained(m, allAcquired));
+                plugin.Configuration.Save();
+            }
+
+            ImGui.SameLine();
+            ImGui.SetCursorPosX(currenCursorPosX);
+            
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X - textWidth - checkWidth - (ImGui.GetStyle().ItemSpacing.X*2));
             DrawSearchFilter("mountPlayerSearch", ref mountPlayerSearch);
             
             using var table = ImRaii.Table("Mounts##" + currentPlayer, 2,
@@ -247,10 +290,6 @@ public class MainWindow : Window, IDisposable
                 ImGui.TableSetupColumn("Acquired  ###mountAcquired", ImGuiTableColumnFlags.WidthFixed);
                 
                 ImGui.TableHeadersRow();
-                
-                var curFilteredMounts = plugin.Configuration.TrackedMounts
-                                              .Where(id => plugin.Configuration.Mounts[id].ToString().Contains(mountPlayerSearch.ToLowerInvariant(), StringComparison.InvariantCultureIgnoreCase))
-                                              .ToList();
 
                 if(curFilteredMounts.Count == 0)
                 {
