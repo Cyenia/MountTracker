@@ -4,9 +4,9 @@
     "net10.0-windows7.0": {
       "DalamudPackager": {
         "type": "Direct",
-        "requested": "[14.0.1, )",
-        "resolved": "14.0.1",
-        "contentHash": "y0WWyUE6dhpGdolK3iKgwys05/nZaVf4ZPtIjpLhJBZvHxkkiE23zYRo7K7uqAgoK/QvK5cqF6l3VG5AbgC6KA=="
+        "requested": "[15.0.0, )",
+        "resolved": "15.0.0",
+        "contentHash": "411vwC8/X8Z/sQ2TI6v3SvOn66xFPeOjFn3Zn+h0d3Ox2t1kFm66AhDvmx/qcMwVrR+Hidxj0dadpQ2dgyXMBQ=="
       },
       "DotNet.ReproducibleBuilds": {
         "type": "Direct",
@@ -16,9 +16,9 @@
       },
       "LuminaSupplemental.Excel": {
         "type": "Direct",
-        "requested": "[4.1.7, )",
-        "resolved": "4.1.7",
-        "contentHash": "qvLha4mwqNtide/Oc/myqaFB3Gkg0RdlunwAxx6zSn8qkFhmK5k7GuZBg8XMGkakGZMvlH3xv06l8pxsnuXUdg==",
+        "requested": "[4.2.4, )",
+        "resolved": "4.2.4",
+        "contentHash": "eF9vRWo6R+XFh8C01HOW95WKxd0Es3pcOmWcg5YcT+oQb6fpmRFzg/3Z4XcMxuZdNhFJmVzOjPd8CT2pVwNC+A==",
         "dependencies": {
           "CSVFile": "3.2.1",
           "CsvHelper": "30.0.1",
